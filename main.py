@@ -2,6 +2,7 @@ from textblob import TextBlob
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import matplotlib.pyplot as plt
 
 def preprocess_text(text):
 
@@ -23,6 +24,19 @@ def analyze_sentiment(text):
     
     return analysis.sentiment.polarity
 
+def plot_sentiment_analysis(texts):
+    sentiments = [analyze_sentiment(text) for text in texts]
+    
+    plt.figure(figsize=(10, 6))
+    plt.bar(range(len(texts)), sentiments, color='blue')
+    plt.xlabel('Text Samples')
+    plt.ylabel('Sentiment Polarity')
+    plt.title('Sentiment Analysis Results')
+    plt.xticks(range(len(texts)), [f'Text {i+1}' for i in range(len(texts))])
+    plt.ylim([-1, 1])  # Set y-axis range to match sentiment polarity (-1 to 1)
+    plt.show()
+
+
 textos = [
     "I had an amazing experience at the new restaurant downtown. The food was delicious, and the service was outstanding!",
     "This movie is the worst I've ever seen. The plot is confusing, and the acting is terrible.",
@@ -36,6 +50,4 @@ textos = [
     "Just finished a great workout at the gym. Feeling energized and ready to tackle the day!"
 ]
 
-for i in textos:
-    sentiment = analyze_sentiment(i)
-    print("Final Result:", sentiment)
+plot_sentiment_analysis(textos)
